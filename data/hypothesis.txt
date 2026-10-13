@@ -1,0 +1,43 @@
+## Main cross-project patterns
+
+### 1. The clearest biological theme is fungal/yeast-associated signal
+Several **Saccharomyces cerevisiae** projects report relatively high totiviridiae abundance, often compared with their own project-specific reference groups. Examples include PRJNA720135 (BY4743), PRJNA287022, PRJNA261399 (W303), PRJNA664803, and multiple yeast strain or growth-condition projects. Other fungal projects also show elevated values, including **Penicillium nalgiovense** in PRJNA418715.
+
+That consistency fits the known association of totiviruses with fungi. It makes yeast and other fungal samples a plausible source of genuine signal. It also means that detections in animal, human, or environmental samples should not automatically be interpreted as infection of the named host: fungal material, associated microbes, or technical carryover could contribute.
+
+### 2. RNA-focused library methods appear strongly related to detection
+Within several projects, RNA-containing or RNA-enriched sample types have much higher values than DNA or ribosome-protected-fragment comparisons. Examples include:
+
+- PRJEB28810: rRNA-depleted total RNA is much higher than ribosome-protected fragments.
+- PRJNA276827: mRNA is higher than ribosome-protected RNA.
+- PRJNA421162 and PRJNA354235: RNA-associated groups are higher than DNA-associated groups.
+- PRJEB23349: metatranscriptome is higher than metagenome.
+
+This is a plausible **measurement effect**: RNA-oriented protocols may capture viral RNA more effectively, while other protocols may not. It cautions against comparing raw abundance across projects with different library strategies, selection methods, or sample processing.
+
+### 3. Insect and mosquito projects include some striking high-abundance signals, but are heterogeneous
+The largest examples include Culex-associated projects PRJNA31237 and PRJNA431306, with very high project-specific means. Drosophila-related projects also range from modest to extremely high values—for example, some RNAi or cell-associated groups in PRJNA395067 and PRJNA668074.
+
+This may reflect genuine insect-associated viral or fungal material, but the variation is too large to support a general claim that insects have high totiviridiae abundance. Host, tissue, sample type, infection status, and library protocol may all be mixed together in these projects.
+
+### 4. Yeast stress, growth, and genotype are plausible modifiers, but there is no simple common direction
+Several yeast studies show differences by growth condition, stress, or genotype. Examples include glucose versus acetate in PRJEB16729, nitrogen-limitation conditions in PRJEB38463, and stress conditions in PRJNA352533. Some yeast genetic perturbations also have high values, including **xrn1**-related groups in PRJNA719131 and PRJNA623367.
+
+These observations suggest hypotheses about cellular state or RNA metabolism affecting viral abundance. However, the direction is not consistent across studies or perturbations: for example, PRJEB6043 reports a much lower value for a *ccr4/pan2* mutant than for wild type, while other mutant comparisons differ in direction. The results support follow-up within controlled experiments, not a general claim that stress or a particular mutation raises totivirus levels.
+
+### 5. Environmental and animal-sample signals are generally less consistent
+Soil, water, and other environmental projects often show low values, with occasional higher groups—for example, some freshwater groups in PRJNA657047 or sediment groups in PRJNA385736. Animal-associated projects likewise vary substantially: PRJNA716119 ranges from low values to high values across sample sources and locations, while some cattle and other vertebrate projects are low.
+
+A reasonable interpretation is that environmental or animal samples can contain totiviridiae-associated material, but these data do not establish whether the source is the sampled organism, its microbiome, fungi in the sample, or the sequencing workflow.
+
+## Important interpretation cautions
+
+- **The two means in each entry appear to be a selected attribute group and its comparison group**, and many pairs are exact reversals across complementary labels. They are not independent replications. For example, “glucose” and “acetate” in the same project may simply describe opposite sides of one contrast.
+- Many attributes are redundant descriptions of the same samples—such as donor IDs, location fields, source names, or missing-value labels. Counting each listed association separately would overstate the evidence.
+- Several apparent associations concern **batch, collection date, missingness, or sample-processing metadata**. These can identify technical or sampling structure rather than biological effects.
+- The values span very different scales across studies. Without sample counts, uncertainty intervals, normalization details, and a common abundance scale, a large mean in one project cannot be directly compared with a smaller mean in another.
+- Error correction helps with multiple testing, but it does not remove confounding within a project or make projects independent.
+
+## Overall takeaway
+
+The most coherent cross-project signal is **higher detection in yeast/fungal material and in RNA-oriented sequencing datasets**. Insect and mosquito datasets contain notable high-abundance cases, while environmental, animal, and human-associated results are more variable and should be interpreted cautiously. The strongest next step would be to test these patterns in a model that accounts for project, host/sample type, and library protocol, with targeted comparisons within projects rather than treating each metadata association as separate evidence.

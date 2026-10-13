@@ -1,0 +1,205 @@
+## Overall interpretation
+
+The clearest cross-BioProject patterns are:
+
+1. **Host species and strain identity strongly track Totiviridae abundance**, particularly in *Saccharomyces cerevisiae* and *Culex pipiens*.
+2. **Two specific yeast genetic associations recur across projects:** **XRN1 deletion → higher abundance** and **RPL22A deletion → lower abundance**.
+3. **RNA extraction, library preparation, and size selection have very large effects**, sometimes larger than plausible biological effects.
+4. **Developmental or physiological state matters**, with repeated enrichment in preadult salmon lice and several late-growth/timepoint comparisons.
+5. **Batch, laboratory, and metadata provenance explain many associations**; missing-value labels should generally be treated as cohort markers rather than biological variables.
+
+Below, “fold difference” means the listed group mean divided by its comparator mean. I assume “negative samples” means **samples not matching the attribute**, not necessarily virus-negative samples. Absolute means should not be compared across projects unless normalization and assay types are comparable.
+
+## 1. Strongest recurring biological associations
+
+### A. Specific yeast genes: XRN1 and RPL22A
+
+These are among the most actionable findings because the same named genetic perturbation appears in separate BioProjects with the same direction.
+
+| Association | BioProject | Group mean / comparator mean | Fold difference |
+|---|---|---:|---:|
+| **XRN1 deletion: higher** | PRJNA719131 | 63.14 / 2.06 | **30.6×** |
+| **XRN1 deletion: higher** | PRJNA623367 | 53.02 / 11.64 | **4.6×** |
+| **RPL22A deletion: lower** | PRJNA558435 | 23.34 / 223.44 | **0.10×** |
+| **RPL22A deletion: lower** | PRJNA485131 | 33.06 / 190.37 | **0.17×** |
+
+**Interpretation:** These support a connection between viral abundance and **host RNA turnover/translation machinery**.
+
+- **XRN1** encodes a major cytoplasmic RNA-degradation enzyme. Higher abundance following deletion is compatible with altered viral RNA stability or host restriction.
+- **RPL22A** encodes a ribosomal protein. Its deletion-associated decrease could reflect translation dependence, altered growth, or changes in RNA composition.
+
+The broader dataset also contains associations involving **TPA1, ETT1, NAB4, RRP44, AlaRS**, and RNAi perturbations. Those reinforce RNA metabolism as a candidate theme, but do not establish a single common mechanism.
+
+**Important counterexample:** The **ccr4/pan2** mutant in PRJEB6043 has substantially *lower* abundance, approximately **27-fold below wild type**. Therefore, the pattern is not “all RNA-degradation defects increase virus.”
+
+**Priority:** Validate XRN1 and RPL22A first, using matched backgrounds and the same viral lineage.
+
+### B. *S. cerevisiae* repeatedly exceeds other fungal species
+
+| BioProject | Comparison | Approximate ratio |
+|---|---|---:|
+| PRJNA319029 | *S. cerevisiae* vs *Cryptococcus neoformans* | **18.7×** |
+| PRJNA485987 | *S. cerevisiae* vs *C. neoformans* | **8.1×** |
+| PRJNA531495 | *S. cerevisiae* vs *Kluyveromyces marxianus* | **8.2×** |
+| PRJNA687401 | *S. cerevisiae* vs *K. lactis* | **24.7×** |
+| PRJNA299815 | *S. cerevisiae* vs *Nakaseomyces glabratus* | **78.0×** |
+
+This is a coherent repeated association, consistent with the established occurrence of persistent totiviruses in budding yeast.
+
+However, each comparison also changes strain and potentially culture or sequencing conditions. The defensible conclusion is:
+
+> **The sampled *S. cerevisiae* cultures repeatedly carry more detectable Totiviridae signal than the sampled comparator fungi—not that every *S. cerevisiae* strain is intrinsically more susceptible.**
+
+### C. Strain background and inherited viral carriage are major determinants
+
+Several projects show enormous strain-associated differences:
+
+- **PRJNA592382:** UCD522 vs UCD932, **231×**.
+- **PRJNA558998:** GSY147 vs RM11, **167×**.
+- **PRJNA484406:** IL01 vs its comparator, approximately **1,713×**.
+- **PRJNA720135:** laboratory BY4743, **8.1× higher** than its comparator; North American and Mosaic lineages are strongly depleted relative to their respective comparators.
+- **PRJNA261399:** laboratory W303 vs wild strains, **3.4× higher**.
+
+These suggest **strain-specific viral carriage/history**, not just responses to the experimental perturbations. Persistent viruses can be retained or lost during strain construction and passage.
+
+There is some repeated BY-background enrichment: BY exceeds W303 in PRJNA877262 and the W303-like genotype in PRJNA433659. But PRJNA487968 shows lower abundance in S288C than its comparator. Thus, **“laboratory/BY strains are always high” is not supported**.
+
+A related caution applies to **HAP1**: PRJNA664803 and PRJNA473997 both contain high-abundance HAP1-positive/repaired backgrounds, but the supplied contrasts do not isolate HAP1 from other genetic differences. This is a candidate connection, not replicated evidence for a HAP1 effect.
+
+### D. *Culex pipiens* enrichment recurs strongly
+
+- **PRJNA31237:** `Cx. pipiens`, **4,841.46 vs 656.37**, approximately **7.4×**.
+- **PRJNA431306:** `Culex pipiens`, **12,410.08 vs 140.85**, approximately **88.1×**.
+
+The host names should be harmonized: they refer to the same named mosquito species.
+
+Both projects also show lower signals in other sample categories:
+
+- PRJNA31237: feathers and named bird hosts are depleted.
+- PRJNA431306: human samples and pooled blood plasma are depleted; whole organisms are enriched.
+
+**Interpretation:** This is a strong repeated mosquito-associated signal. It does not alone establish infection of mosquito cells: associated microbes, parasites, and historical taxonomic classification of toti-like viruses remain alternatives.
+
+The bird/human contrasts are not independent confirmation if they describe the same underlying mosquito-versus-other-sample partition.
+
+## 2. Repeated developmental and physiological patterns
+
+### A. Preadult salmon lice are enriched across two projects
+
+**PRJNA577842**, explicitly involving *Lepeophtheirus salmonis*:
+
+- Preadult 1 males: **6.3× higher** than their comparator.
+- 18 days post infection: **5.6× higher**.
+- Copepodite, 5 dpi, and chalimus 1/10 dpi groups: lower abundance.
+- Multiple preadult/18 dpi sample titles show enrichment across both salmon-resistance categories and prior-exposure histories.
+
+**PRJNA413461:**
+
+- `preadult1, old`: **4.3× higher**.
+- `preadult1, middle`: **2.9× higher**.
+
+This is a promising **preadult-stage association**, provided organism identity is confirmed for PRJNA413461. In PRJNA577842, stage appears more consistently associated than salmon resistance or prior exposure, although matched comparisons are needed to separate them.
+
+### B. Late-growth/48-hour enrichment recurs, but is not universal
+
+- **PRJNA421268:** 48 hours, **18.9× higher**; log phase depleted.
+- **PRJNA855463:** 48 hours, **7.5× higher**; log phase depleted.
+- **PRJNA855938:** log phase depleted, but 48 hours is approximately unchanged versus its comparator.
+
+These support investigating **growth-phase-dependent abundance**, while retaining the third project as a partial counterexample. Confirm comparable organisms and growth regimes before pooling.
+
+### C. Heat-shock-associated increases recur
+
+- PRJNA352533: HeatShock, **1.32× higher**.
+- PRJNA694162: heat shock with 4-thiouridine labeling, **2.24× higher**.
+- PRJNA783613: combined dTAG7 and heat shock, **1.81× higher**.
+
+This is directionally consistent, but the treatments and assays differ; the combined dTAG7 condition does not isolate heat shock.
+
+### D. Nutrient signaling is a recurring theme—not a uniform rule
+
+Examples include:
+
+- Rapamycin: higher in **PRJNA475469, 6.4×**, and **PRJNA189332, 1.3×**.
+- Low-phosphate transition: higher in **PRJNA592756, 2.8×**.
+- Ammonium nitrogen limitation at low dilution rate: higher in **PRJEB38463, 12.1×**.
+
+However:
+
+- PRJEB16729: glucose exceeds acetate.
+- PRJNA545271: glucose-free medium exceeds YPD.
+- PRJNA247675: higher dilution rate has higher abundance.
+- PRJEB38463: low dilution rate under ammonium limitation has higher abundance.
+
+**Conclusion:** Nutrient/growth regulation likely matters, but there is no defensible universal “glucose,” “starvation,” or “growth-rate” effect.
+
+## 3. Technical associations are exceptionally strong
+
+### A. RNA-based assays consistently recover more signal than DNA-based assays
+
+| BioProject | Comparison | Approximate ratio |
+|---|---|---:|
+| PRJNA354235 | RNA vs DNA | **68×** |
+| PRJNA421162 | RNA vs DNA | **95×** |
+| PRJNA587831 | RNA-extraction cohort vs DNA-extraction cohort | **105×** |
+| PRJEB23349 | Metatranscriptome vs metagenome | **29×** |
+
+This is expected for RNA viruses and is a highly consistent cross-project pattern. In PRJNA587831, extraction type is also confounded with collection year.
+
+### B. Ribosome-protected/short-fragment libraries are depleted
+
+- **PRJEB28810:** rRNA-depleted total RNA vs 26–34 nt ribosome-protected fragments, approximately **2,861×**.
+- **PRJNA276827:** mRNA vs ribosome-protected RNA, **160×**.
+- **PRJNA274977:** normal vs small fragments, **11.7×**.
+
+These results strongly support **library-fraction-dependent detectability**. They should not be interpreted as proof that viral RNA is untranslatable: short-read classification, fragment recovery, and normalization can all contribute.
+
+### C. Poly(A) selection often depletes signal, but there are important exceptions
+
+- PRJNA714124: random metatranscriptomic libraries exceed PolyA libraries by **10.9×**, but species and instrument also differ.
+- PRJNA796837: `polya_recovery=not applicable` is enriched; `norm` is depleted.
+- **Counterexample:** PRJNA750065 has higher signal in polyA RNA than rRNA-depleted total RNA, approximately **8.9×**, alongside strong batch associations.
+- PRJNA552283 also favors QuantSeq 3′ RNA-seq over conventional RNA-seq.
+
+Therefore, treat poly(A) selection as a major covariate, **not a universally directional effect**.
+
+### D. Extraction controls raise a contamination concern
+
+**PRJNA665071 is particularly important:**
+
+- RNase-free water samples: **49.70 vs 10.12**, **4.9× higher**.
+- eMAG protocol: enriched.
+- QIAamp protocol: strongly depleted.
+- Non-applicable host: enriched relative to human samples.
+
+If the water samples are extraction blanks, this is direct reason to investigate **reagent contamination, carryover, or classification artifacts**.
+
+Other protocol effects reinforce this concern:
+
+- PRJNA801677: ultrafiltration/RNeasy workflow exceeds NanoTrap/MagMAX by **17.7×**.
+- PRJNA438061: captured total RNA exceeds uncaptured total RNA by **12×**.
+
+## 4. Other repeated relationships worth pursuing cautiously
+
+- **Breed B > breed Q** occurs in both PRJNA344376 (**9.1×**) and PRJNA298415 (**3.0×**). This is a clear repeated label-level association; verify the organisms and meaning of B/Q before biological interpretation.
+- **Neural samples** are enriched in several projects: pyramidal/Purkinje cells in PRJNA66167, cerebellum in PRJNA885815, and striatum in PRJNA750065. But donor, laboratory, enrichment method, and batch are entangled. This is not evidence of neural infection.
+- **Gut/digestive enrichment** appears in PRJNA388952, PRJNA749320, and PRJNA418053, but PRJNA609359 shows the opposite—carcass greatly exceeds midgut. No universal gut-tropism conclusion is justified.
+- Several disease groups have lower signal than controls, including PRJNA552230 and PRJNA427715, but these are different diagnoses and cohorts. They do not establish a general disease relationship.
+- Sex effects differ across projects and often track tissue or missingness. **No general male/female association emerges.**
+
+## 5. What to resolve before a cross-project meta-analysis
+
+**Multiple-testing correction does not remove confounding or make overlapping findings independent.**
+
+I would prioritize:
+
+1. **Deduplicate sample partitions.** Glucose/acetate mirror contrasts, donor URL/donor ID, and state/jurisdiction pairs are not separate discoveries.
+2. **Harmonize metadata.** Examples such as `plasma`/`Plasma`, `Homo Sapien`/`Homo sapiens`, and `Australia:NSW`/`Australia: NSW` identify likely provenance effects.
+3. **Resolve contradictory entries.** PRJNA792450 lists the identical `sequencing_batch=None` and `disease=None` attributes with different means and opposing directions. Hidden subsets or analysis strata must be identified.
+4. **Recover sample sizes, uncertainty, and distributions.** Means alone cannot distinguish broadly elevated abundance from a few extreme libraries.
+5. **Check sequence-level validity:** unique reads, genome coverage, assembled contigs, viral lineage, and similarity to signals in blanks.
+6. **Estimate matched effects within projects**, controlling for strain, library preparation, laboratory/batch, and biological replicate; then combine comparable effects.
+
+### Bottom line
+
+The strongest biological follow-ups are **XRN1 deletion, RPL22A deletion, repeated *Culex pipiens* enrichment, and preadult salmon-louse enrichment**. The strongest overarching explanation is that **host/strain-specific viral carriage and assay-dependent recovery jointly drive the results**. Any proposed tissue, sex, disease, or environmental association should first survive those two controls.
